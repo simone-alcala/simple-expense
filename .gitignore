@@ -1,0 +1,7 @@
+/infos
+/node_modules
+/dist
+.env
+.env.test
+
+

@@ -23,7 +23,7 @@
 # Run
 ```yml 
  - npm install
- - npm run prisma:deploy
+ - npm run migrate
  - npm run dev
  ```
 

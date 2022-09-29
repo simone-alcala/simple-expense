@@ -17,6 +17,9 @@ model User {
   email     String @unique
   password  String
 
+  requests  Request[]
+  approvals Approval[]
+
   @@map("users")
 }
 
@@ -24,6 +27,8 @@ model Expense {
   id          Int @id @default(autoincrement())
   description String @unique
   type        String
+
+  requestItem RequestItem[]
 
   @@map("expenses")
 }
@@ -34,15 +39,25 @@ model Request {
   createdDate DateTime
   status      String
   amount      Decimal
-  userId      Int
+
+  requesterId Int
+  user        User @relation(fields: [requesterId], references: [id])
+
+  requestItems  RequestItem[]
+  approvals     Approval[]
 
   @@map("requests")
 }
 
 model RequestItem {
   id          Int @id @default(autoincrement())
+
   requestId   Int
+  request     Request @relation(fields: [requestId], references: [id])
+
   expenseId   Int
+  expense     Expense @relation(fields: [expenseId], references: [id])
+
   date        DateTime
   observation String
   amount      Decimal
@@ -53,8 +68,13 @@ model RequestItem {
 
 model Approval {
   id          Int @id @default(autoincrement())
+
   requestId   Int
-  userId      Int
+  request     Request @relation(fields: [requestId], references: [id])
+
+  approverId  Int
+  user        User @relation(fields: [approverId], references: [id])
+
   date        DateTime
   observation String
   status      String

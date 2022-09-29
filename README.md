@@ -31,5 +31,52 @@
 # ROUTES
 
 ```yml 
+POST /sign-up
+    - Route to sign-up 
+    - body: {
+        "email": "lorem@gmail.com",
+        "firstName": "loremipsum",
+        "lastName": "loremipsum",
+        "password": "loremipsum"
+      }
+```
 
+```yml 
+POST /sign-in
+    - Route to login
+    - body: {
+        "email": "lorem@gmail.com",
+        "password": "loremipsum"
+      }
+    - response: {
+        "token": "loremipsum",
+      }
+```
+
+```yml 
+GET /users
+    - Route to get all users 
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: [
+        {
+          "id": 0,
+          "email": "lorem@gmail.com",
+          "firstName": "loremipsum",
+          "lastName": "loremipsum"
+        }
+      ]
+```
+
+```yml 
+GET /users/:id
+    - Route to get a user by ID
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: {
+        "id": 0,
+        "email": "lorem@gmail.com",
+        "firstName": "loremipsum",
+        "lastName": "loremipsum"
+      }
 ```

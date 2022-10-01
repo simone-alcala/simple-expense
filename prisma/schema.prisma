@@ -26,7 +26,7 @@ model User {
 model Expense {
   id          Int @id @default(autoincrement())
   description String @unique
-  type        String
+  type        ExpenseTypes @default(OTHER)
 
   requestItem RequestItem[]
 
@@ -81,3 +81,13 @@ model Approval {
 
   @@map("approvals")
 }
+
+enum ExpenseTypes {
+  ACCOMMODATION
+  CLEANING
+  OFFICE
+  MEAL
+  TRANSPORT
+  OTHER
+}
+

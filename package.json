@@ -12,7 +12,7 @@
     "seed": "prisma db seed",
     "seed:test": "cross-env dotenv -e .env.test prisma db seed"
   },
-  "author": "",
+  "author": "Simone Alcala",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.4.0",

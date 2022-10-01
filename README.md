@@ -30,6 +30,8 @@
 #
 # ROUTES
 
+## Authentication
+
 ```yml 
 POST /sign-up
     - Route to sign-up 
@@ -52,6 +54,8 @@ POST /sign-in
         "token": "loremipsum",
       }
 ```
+
+## Users
 
 ```yml 
 GET /users
@@ -78,5 +82,44 @@ GET /users/:id
         "email": "lorem@gmail.com",
         "firstName": "loremipsum",
         "lastName": "loremipsum"
+      }
+```
+
+## Expenses
+
+```yml 
+POST /expenses
+    - Route to get all expenses 
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "description": "loremipsum",
+        "type": "lorem"
+      }
+    - response: {}
+```
+
+```yml 
+GET /expenses
+    - Route to get all expenses 
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: [
+        {
+          "id": 0,
+          "description": "loremipsum",
+          "type": "lorem"
+        }
+      ]
+```
+
+```yml 
+GET /expenses/:id
+    - Route to get a expense by ID
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: {
+        "id": 0,
+        "description": "loremipsum",
+        "type": "lorem"
       }
 ```

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "requestItems" ALTER COLUMN "date" SET DATA TYPE TIMESTAMPTZ(6);

@@ -9,6 +9,9 @@ export async function insert(data: CreateRequestItemType) {
 export async function findById(id: number) {
   return prisma.requestItem.findUnique({ 
     where: { id },
+    include: {
+      request: true
+    }
   });  
 }
 

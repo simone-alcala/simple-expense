@@ -38,7 +38,7 @@ model Request {
   description String
   createdDate DateTime @default(now()) @db.Date
   status      RequestStatus @default(OPEN)
-  amount      Decimal @default(0)
+  amount      Float @default(0)
 
   requesterId Int
   user        User @relation(fields: [requesterId], references: [id])
@@ -58,9 +58,9 @@ model RequestItem {
   expenseId   Int
   expense     Expense @relation(fields: [expenseId], references: [id])
 
-  date        DateTime @db.Date
+  date        DateTime @db.Timestamptz(6)
   observation String?
-  amount      Decimal
+  amount      Float
   receipt     String?
 
   @@map("requestItems")

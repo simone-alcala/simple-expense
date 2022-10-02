@@ -89,3 +89,7 @@ export async function updateStatusById(id: number, status: requestStatus) {
 export function getRequestStatusList() {
   return ['OPEN', 'SENT', 'APPROVED', 'REJECTED', 'CANCELED'];
 }
+
+export async function updateAmount(id: number, type: 'increment' | 'decrement',  amount: number) {
+  return await repository.updateAmount(id, type, amount);
+}

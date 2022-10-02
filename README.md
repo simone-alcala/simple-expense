@@ -221,3 +221,38 @@ PATCH /requests/:id
       }
     - response: {}
 ```
+
+## RequestItems
+
+```yml 
+POST /request-items/:id
+    - Route to add a new request item by request ID
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "expenseId": 0,
+        "amount": 00.00,
+        "date": "YYYY-MM-DD"
+        "observation": "lorem" optional
+        "receipt": "lorem" optional
+      }
+    - response: {
+        "requestItemId": 0
+      }
+```
+
+```yml 
+GET /request-item/item/:id
+    - Route to get a request item by ID
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: {
+        "id": 0,
+        "requestId": 0,
+        "expenseId": 0,
+        "date": "YYYY-MM-DD",
+        "observation": "lorem",
+        "amount": 00.00,
+        "receipt": "lorem",
+      }
+
+```

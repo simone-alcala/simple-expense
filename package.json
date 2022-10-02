@@ -8,7 +8,7 @@
     "start": "node dist/src/server.js",
     "dev": "nodemon src/server.ts",
     "migrate": "prisma migrate dev",
-    "migrate:test": "cross-env dotenv -e .env.test npm run prisma:migrate",
+    "migrate:test": "cross-env dotenv -e .env.test npm run migrate",
     "seed": "prisma db seed",
     "seed:test": "cross-env dotenv -e .env.test prisma db seed"
   },

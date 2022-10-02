@@ -89,7 +89,7 @@ GET /users/:id
 
 ```yml 
 POST /expenses
-    - Route to get all expenses 
+    - Route to add a new expense
     - headers: { "Authorization": "Bearer $token" }
     - body: {
         "description": "loremipsum",
@@ -122,4 +122,102 @@ GET /expenses/:id
         "description": "loremipsum",
         "type": "lorem"
       }
+```
+
+## Requests
+
+```yml 
+POST /requests
+    - Route to add a new request
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "description": "loremipsum",
+      }
+    - response: {
+        "requestId": 0
+      }
+```
+
+```yml 
+GET /requests
+    - Route to get all expenses 
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: [
+        {
+          "id": 1,
+          "description": "lorem",
+          "createdDate": "YYYY-MM-DD",
+          "status": "lorem",
+          "amount": "0",
+          "requesterId": 0,
+          "requestItems": [],
+          "approvals": []
+        }
+      ]
+```
+
+```yml 
+GET /requests/user/:requesterId
+    - Route to get all expenses of a user
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: [
+        {
+          "id": 1,
+          "description": "lorem",
+          "createdDate": "YYYY-MM-DD",
+          "status": "lorem",
+          "amount": "0",
+          "requesterId": 0,
+          "requestItems": [],
+          "approvals": []
+        }
+      ]
+```
+
+```yml 
+GET /requests/status/:status
+    - Route to get all expenses by a status
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: [
+        {
+          "id": 1,
+          "description": "lorem",
+          "createdDate": "YYYY-MM-DD",
+          "status": "lorem",
+          "amount": "0",
+          "requesterId": 0,
+          "requestItems": [],
+          "approvals": []
+        }
+      ]
+```
+
+```yml 
+GET /requests/:id
+    - Route to get all expenses by ID
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: {
+        "id": 1,
+        "description": "lorem",
+        "createdDate": "YYYY-MM-DD",
+        "status": "lorem",
+        "amount": "0",
+        "requesterId": 0,
+        "requestItems": [],
+        "approvals": []
+      }
+```
+
+```yml 
+PATCH /requests/:id
+    - Route to update status
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "status": "lorem"
+      }
+    - response: {}
 ```

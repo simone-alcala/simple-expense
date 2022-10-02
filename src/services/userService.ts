@@ -33,7 +33,7 @@ export async function isValidToken(token: string, message?: string) {
   if (result?.userId){
     const user = await getUserById(result.userId);
     if (user) {
-      return result?.userId;
+      return result.userId;
     }
   }
 }

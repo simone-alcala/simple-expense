@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "requestItems" ALTER COLUMN "date" SET DATA TYPE DATE;
+
+-- AlterTable
+ALTER TABLE "requests" ALTER COLUMN "createdDate" SET DEFAULT CURRENT_TIMESTAMP,
+ALTER COLUMN "createdDate" SET DATA TYPE DATE;

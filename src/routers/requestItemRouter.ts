@@ -9,5 +9,6 @@ const requestItemRouter = Router();
 
 requestItemRouter.post('/request-items/:id'      , validateToken, validateSchema(createExpenseItem), controller.create  );
 requestItemRouter.get ('/request-items/item/:id' , validateToken, controller.findById);
+requestItemRouter.get ('/request-items/items/:id', validateToken, controller.findAllByRequestId  );
 
 export default requestItemRouter;

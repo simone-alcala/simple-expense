@@ -22,6 +22,18 @@ export async function findAll() {
 export async function findAllByRequestId(requestId: number) {
   return prisma.requestItem.findMany({ 
     where: { requestId },
+    select: {
+      id: true,
+      date: true,
+      amount: true,
+      observation: true,
+      receipt: true,
+      expense: {
+        select: {
+          description: true
+        }
+      }
+    }
   });  
 }
 

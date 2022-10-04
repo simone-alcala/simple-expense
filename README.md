@@ -256,3 +256,19 @@ GET /request-items/item/:id
       }
 
 ```
+
+```yml 
+GET /request-items/items/:id
+    - Route to get all request items by request ID
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {}
+    - response: {
+        "id": 0,
+        "expenseId": 0,
+        "date": "DD/MM/YYYY",
+        "observation": "lorem",
+        "amount": 00.00,
+        "receipt": "lorem",
+      }
+
+```

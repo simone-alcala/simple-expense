@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import * as repository from '../repositories/requestItemRepository';
 import * as requestService from './requestService';
 import * as expenseService from './expenseService';
@@ -58,4 +59,24 @@ export async function getById(stringId: string, userId: number) {
 
 export async function findById(id: number) {
   return await repository.findById(id);
+}
+
+export async function findAllByRequestId(requestId: string, userId?: number) {
+  const result:any[] = [];
+  if (isNaN(Number(requestId))) {
+    return [];
+  }
+  const items = await repository.findAllByRequestId(Number(requestId));
+
+  items.map(item => {
+    result.push({
+      id: item.id,
+      date: dayjs(item.date).format('DD/MM/YYYY'),
+      amount: item.amount,
+      observation: item.observation,
+      receipt: item.receipt,
+      expense: item.expense.description
+    })
+  });
+  return result;
 }

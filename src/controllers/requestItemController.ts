@@ -15,3 +15,9 @@ export async function findById(req: Request, res: Response) {
   const result = await service.getById(id, res.locals.currentUserId);
   res.status(200).send(result);
 }
+
+export async function findAllByRequestId(req: Request, res: Response) {
+  const { id } = req.params;
+  const result = await service.findAllByRequestId(id, res.locals.currentUserId);
+  res.status(200).send(result);
+}

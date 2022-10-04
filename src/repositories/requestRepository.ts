@@ -54,8 +54,8 @@ export async function updateStatus(id: number, status: requestStatus) {
 }
 
 export async function updateAmount(id: number, type: 'increment' | 'decrement', amount: number) {
-  prisma.request.update({ 
+  return prisma.request.update({ 
     where: { id },
-    data: { [type]: amount }
+    data: { amount: { [type]: amount } }
   })
 }

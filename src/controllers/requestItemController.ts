@@ -6,7 +6,7 @@ import { ControllerRequestItemType } from '../types/requestItemType';
 export async function create(req: Request, res: Response) {
   const { id } = req.params;
   const body : ControllerRequestItemType = req.body;
-  const result = await service.create(body, id, res.locals.currentUserId);
+  const result = await service.create(body as ControllerRequestItemType, id, res.locals.currentUserId);
   res.status(200).send(result);
 }
 

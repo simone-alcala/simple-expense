@@ -241,7 +241,7 @@ POST /request-items/:id
 ```
 
 ```yml 
-GET /request-item/item/:id
+GET /request-items/item/:id
     - Route to get a request item by ID
     - headers: { "Authorization": "Bearer $token" }
     - body: {}

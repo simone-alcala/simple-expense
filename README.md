@@ -272,3 +272,16 @@ GET /request-items/items/:id
       }
 
 ```
+
+## Approvals
+
+```yml 
+POST /approvals/:requestId
+    - Route to create a approval register by request ID
+    - headers: { "Authorization": "Bearer $token" }
+    - body: {
+        "comment": "lorem",
+        "status": "APPROVED" or "REJECTED"
+      }
+    - response: {}
+```

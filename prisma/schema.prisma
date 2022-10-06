@@ -75,9 +75,9 @@ model Approval {
   approverId  Int
   user        User @relation(fields: [approverId], references: [id])
 
-  date        DateTime
-  observation String
-  status      String
+  createdDate DateTime @default(now()) @db.Date
+  comment     String @default("")
+  status      RequestStatus @default(OPEN)
 
   @@map("approvals")
 }

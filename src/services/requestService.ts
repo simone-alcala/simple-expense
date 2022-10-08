@@ -1,6 +1,8 @@
 import { Request, Approval, RequestItem } from '@prisma/client';
+import dayjs from 'dayjs';
 import * as repository from '../repositories/requestRepository';
 import { ControllerRequestType, CreateRequestType, requestStatus } from '../types/requestType';
+import { ApprovalStatus } from '../types/approvalType';
 import * as throwError from './../utils/errorUtils';
 
 export async function create(data: ControllerRequestType, currentUserId: number) {
@@ -13,18 +15,63 @@ export async function create(data: ControllerRequestType, currentUserId: number)
   return { requestId: result.id };
 }
 
-export async function findAll() {
-  return await repository.findAll();
+export async function findAll(requesterId: number) {
+  const result: any[]= [];
+
+  const requests =  await repository.findAll(requesterId);
+
+  requests.map(request => {
+
+    result.push({
+      id: request.id,
+      description: request.description,
+      amount: (Math.round(request.amount * 100) / 100).toFixed(2),
+      approverComment: request.approverComment,
+      status: request.status,
+      createdDate: dayjs(request.createdDate).format('DD/MM/YYYY'),
+      requesterId: request.requesterId,
+    })
+  })
+
+  return result;
 }
 
 export async function findByStatus(status: string) {
   status = status.toUpperCase();
+  const result:any[] = [];
 
   if (getRequestStatusList().includes(status)) {
-    return await repository.findByStatus(status as requestStatus);
+    const requests = await repository.findByStatus(status as requestStatus);
+
+    requests.map(request => {
+      const items: any[] = [];
+
+      request.requestItems.map(item => {
+        items.push({
+          id: item.id,
+          date: dayjs(item.date).format('DD/MM/YYYY'),
+          amount: (Math.round(item.amount * 100) / 100).toFixed(2),
+          observation: item.observation,
+          receipt: item.receipt,
+          expenseId: item.expenseId,
+          expenseDesc: item.expense.description
+        })
+      });
+
+      result.push({
+        id: request.id,
+        description: request.description,
+        amount: (Math.round(request.amount * 100) / 100).toFixed(2),
+        status: request.status,
+        createdDate: dayjs(request.createdDate).format('DD/MM/YYYY'),
+        requesterId: request.requesterId,
+        requesterName: request.user.firstName + ' ' + request.user.lastName,
+        requestItems: items,
+      })
+    })
   }
 
-  return [];
+  return result;
 }
 
 export async function getByRequesterId(stringId: string) {
@@ -92,4 +139,8 @@ export function getRequestStatusList() {
 
 export async function updateAmount(id: number, type: 'increment' | 'decrement',  amount: number) {
   return await repository.updateAmount(id, type, amount);
+}
+
+export async function updateApproval(id: number, status: ApprovalStatus, comment: string) {
+  return await repository.updateApproval(id, status, comment);
 }

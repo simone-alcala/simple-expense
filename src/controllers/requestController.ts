@@ -28,7 +28,7 @@ export async function findByRequesterId(req: Request, res: Response) {
 }
 
 export async function findAll(req: Request, res: Response) {
-  const result = await service.findAll();
+  const result = await service.findAll(res.locals.currentUserId);
   res.status(200).send(result);
 }
 

@@ -13,7 +13,13 @@ export async function findById(id: number) {
 }
 
 export async function findAll() {
-  return prisma.expense.findMany();  
+  return prisma.expense.findMany({
+    orderBy: [
+      {
+        description: 'asc'
+      }
+    ]
+  });  
 }
 
 export async function findByType(type: expenseTypes) {

@@ -34,17 +34,18 @@ model Expense {
 }
 
 model Request {
-  id          Int @id @default(autoincrement())
-  description String
-  createdDate DateTime @default(now()) @db.Date
-  status      RequestStatus @default(OPEN)
-  amount      Float @default(0)
+  id              Int @id @default(autoincrement())
+  description     String
+  createdDate     DateTime @default(now()) @db.Date
+  status          RequestStatus @default(OPEN)
+  approverComment String @default("")
+  amount          Float @default(0)
 
-  requesterId Int
-  user        User @relation(fields: [requesterId], references: [id])
+  requesterId     Int
+  user            User @relation(fields: [requesterId], references: [id])
 
-  requestItems  RequestItem[]
-  approvals     Approval[]
+  requestItems    RequestItem[]
+  approvals       Approval[]
 
   @@map("requests")
 }
@@ -96,5 +97,6 @@ enum RequestStatus {
   SENT
   APPROVED
   REJECTED
+  REVIEW
   CANCELED
 }

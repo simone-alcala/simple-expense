@@ -17,12 +17,15 @@ export async function findById(id: number) {
   });  
 }
 
-export async function findAll() {
+export async function findAll(requesterId: number) {
   return prisma.request.findMany({ 
-    include: {
-      requestItems: true,
-      approvals: true
+    where: {
+      requesterId
+    },
+    orderBy: {
+      id: 'asc'
     }
+   
   });  
 }
 
@@ -39,10 +42,47 @@ export async function findAllByRequesterId(requesterId: number) {
 export async function findByStatus(status: requestStatus) {
   return prisma.request.findMany({ 
     where: { status },
-    include: {
-      requestItems: true,
-      approvals: true
-    }
+    select: {
+      id: true,
+      description: true,
+      amount: true,
+      status: true,
+      createdDate: true,
+      requesterId: true,
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+        }
+      },
+      requestItems: {
+        select: {
+          id: true,
+          date: true,
+          amount: true,
+          observation: true,
+          expenseId: true,
+          receipt: true,
+          expense: {
+            select: {
+              description: true
+            }
+          },
+        },
+        orderBy: [
+          {
+            date: 'asc'
+          }
+        ]
+      }
+    },
+    orderBy: [
+      {
+        id: 'asc',
+      },
+    ]
+      
+    
   });  
 }
 
@@ -57,5 +97,12 @@ export async function updateAmount(id: number, type: 'increment' | 'decrement', 
   return prisma.request.update({ 
     where: { id },
     data: { amount: { [type]: amount } }
+  })
+}
+
+export async function updateApproval(id: number, status: 'APPROVED' | 'REJECTED' | 'REVIEW', approverComment: string) {
+  return prisma.request.update({ 
+    where: { id },
+    data: { status: status as requestStatus, approverComment }
   })
 }

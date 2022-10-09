@@ -32,8 +32,13 @@ export async function findAllByRequestId(requestId: number) {
         select: {
           description: true
         }
+      },
+    },
+    orderBy: [
+      {
+        date: 'asc',
       }
-    }
+    ]
   });  
 }
 

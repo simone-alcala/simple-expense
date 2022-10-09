@@ -67,15 +67,14 @@ export async function findAllByRequestId(requestId: string, userId?: number) {
     return [];
   }
   const items = await repository.findAllByRequestId(Number(requestId));
-
   items.map(item => {
     result.push({
       id: item.id,
       date: dayjs(item.date).format('DD/MM/YYYY'),
-      amount: item.amount,
+      amount: (Math.round(item.amount * 100) / 100).toFixed(2),
       observation: item.observation,
       receipt: item.receipt,
-      expense: item.expense.description
+      expense: item.expense.description,
     })
   });
   return result;

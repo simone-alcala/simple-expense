@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
+import { RequestItem, Request } from '@prisma/client';
 import * as repository from '../repositories/requestItemRepository';
 import * as requestService from './requestService';
 import * as expenseService from './expenseService';
-import { ControllerRequestItemType, CreateRequestItemType } from '../types/requestItemType';
+import { ControllerRequestItemType, CreateRequestItemType, UpdateRequestItemType } from '../types/requestItemType';
 import * as throwError from '../utils/errorUtils';
 
 export async function create(data: ControllerRequestItemType, requestId: string, userId: number) {
@@ -57,6 +58,8 @@ export async function getById(stringId: string, userId: number) {
   return result;
 }
 
+
+
 export async function findById(id: number) {
   return await repository.findById(id);
 }
@@ -78,4 +81,39 @@ export async function findAllByRequestId(requestId: string, userId?: number) {
     })
   });
   return result;
+}
+
+export async function update(data: UpdateRequestItemType, itemId: string, requestId: string, userId: number) {
+  const request = await getByRequestId(requestId, userId);
+  
+  const item = await getById(itemId, userId) as RequestItem & { request: Request; };
+  
+  if (request.id !== item.requestId) {
+    throw throwError.conflict('Invalid relation requestId and itemId');
+  }
+
+  if (data.expenseId) {
+    await findExpenseByIdOrFail(data.expenseId);
+  }
+
+  let newItem : UpdateRequestItemType = {
+    ...data,
+    observation: data.observation ? data.observation.toUpperCase() : null,
+  }
+
+  if (data.date) {
+    newItem = {
+      ...data,
+      date: new Date(data.date)
+    }
+  } 
+
+  const result = await repository.updateById(item.id, newItem);
+
+  if (data.amount) {
+    await updateRequestAmount(request.id, 'decrement', item.amount);
+    await updateRequestAmount(request.id, 'increment', data.amount);
+  }
+  
+  return { requestItemId: result.id };
 }

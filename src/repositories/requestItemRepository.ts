@@ -1,6 +1,6 @@
 import prisma from '../database/config';
 
-import { CreateRequestItemType } from '../types/requestItemType';
+import { CreateRequestItemType, UpdateRequestItemType } from '../types/requestItemType';
 
 export async function insert(data: CreateRequestItemType) {
   return prisma.requestItem.create({ data });  
@@ -42,3 +42,9 @@ export async function findAllByRequestId(requestId: number) {
   });  
 }
 
+export async function updateById(id: number, data: UpdateRequestItemType) {
+  return prisma.requestItem.update({ 
+    where: { id },
+    data
+  })
+}

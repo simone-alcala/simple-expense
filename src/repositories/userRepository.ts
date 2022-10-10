@@ -32,7 +32,15 @@ export async function findAll() {
       firstName: true,
       lastName: true,
       type: true,
-    }
+    },
+    orderBy: [
+      {
+        firstName: 'asc'
+      },
+      {
+        lastName: 'asc'
+      }
+    ]
   });  
 }
 

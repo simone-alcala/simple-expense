@@ -8,6 +8,11 @@ import * as throwError from '../utils/errorUtils';
 
 export async function create(data: ControllerRequestItemType, requestId: string, userId: number) {
   const request = await getByRequestId(requestId, userId);
+
+  if (request.status !== 'OPEN') {
+    throw throwError.badRequest('Request item can not be added');
+  }
+
   await findExpenseByIdOrFail(data.expenseId);
   const newItem : CreateRequestItemType = {
     ...data,
@@ -90,6 +95,10 @@ export async function findAllByRequestId(requestId: string, userId?: number) {
 
 export async function update(data: UpdateRequestItemType, itemId: string, requestId: string, userId: number) {
   const request = await getByRequestId(requestId, userId);
+
+  if (request.status !== 'REVIEW' && request.status !== 'OPEN') {
+    throw throwError.badRequest('Request item can not be modified');
+  }
   
   const item = await getById(itemId, userId) as RequestItem & { request: Request; };
   
@@ -103,13 +112,19 @@ export async function update(data: UpdateRequestItemType, itemId: string, reques
 
   let newItem : UpdateRequestItemType = {
     ...data,
-    observation: data.observation ? data.observation.toUpperCase() : null,
   }
 
   if (data.date) {
     newItem = {
       ...data,
       date: new Date(data.date)
+    }
+  } 
+
+  if (data.observation) {
+    newItem = {
+      ...data,
+      observation: data.observation.toUpperCase(),
     }
   } 
 

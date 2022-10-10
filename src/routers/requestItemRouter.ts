@@ -11,5 +11,6 @@ requestItemRouter.post('/request-items/:id'      , validateToken, validateSchema
 requestItemRouter.get ('/request-items/item/:id' , validateToken, controller.findById);
 requestItemRouter.get ('/request-items/items/:id', validateToken, controller.findAllByRequestId  );
 requestItemRouter.put ('/request-items/items/:requestId/:itemId', validateToken, validateSchema(updateExpenseItem), controller.update );
+requestItemRouter.delete ('/request-items/items/:requestId/:itemId', validateToken, controller.deleteById );
 
 export default requestItemRouter;

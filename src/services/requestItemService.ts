@@ -137,3 +137,23 @@ export async function update(data: UpdateRequestItemType, itemId: string, reques
   
   return { requestItemId: result.id };
 }
+
+export async function deleteById(itemId: string, requestId: string, userId: number) {
+  const request = await getByRequestId(requestId, userId);
+
+  if (request.status !== 'REVIEW' && request.status !== 'OPEN') {
+    throw throwError.badRequest('Request item can not be modified');
+  }
+  
+  const item = await getById(itemId, userId) as RequestItem & { request: Request; };
+  
+  if (request.id !== item.requestId) {
+    throw throwError.conflict('Invalid relation requestId and itemId');
+  }
+
+  await updateRequestAmount(request.id, 'decrement', item.amount);
+  
+  const result = await repository.deleteById(item.id);
+  
+  return { requestItemId: result.id };
+}

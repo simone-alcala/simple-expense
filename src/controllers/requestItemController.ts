@@ -28,3 +28,9 @@ export async function update(req: Request, res: Response) {
   const result = await service.update(body, itemId, requestId, res.locals.currentUserId);
   res.status(200).send(result);
 }
+
+export async function deleteById(req: Request, res: Response) {
+  const { requestId, itemId } = req.params;
+  await service.deleteById(itemId, requestId, res.locals.currentUserId);
+  res.sendStatus(200);
+}

@@ -48,3 +48,9 @@ export async function updateById(id: number, data: UpdateRequestItemType) {
     data
   })
 }
+
+export async function deleteById(id: number) {
+  return prisma.requestItem.delete({ 
+    where: { id },
+  })
+}

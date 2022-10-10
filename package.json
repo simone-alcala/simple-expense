@@ -7,11 +7,17 @@
     "build": "tsc",
     "start": "node dist/src/server.js",
     "dev": "nodemon src/server.ts",
+    "seed": "prisma db seed",
     "migrate": "prisma migrate dev",
-    "migrate:test": "cross-env dotenv -e .env.test npm run migrate"
+    "generate": "prisma generate",
+    "prisma:prod": "npm run migrate  && npm run generate && npm run seed",
+    "prisma:test": "cross-env dotenv -e .env.test npm run migrate  && cross-env dotenv -e .env.test npm run generate && cross-env dotenv -e .env.test npm run seed"
   },
   "author": "Simone Alcala",
   "license": "ISC",
+  "prisma" :{
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^4.4.0",
     "bcrypt": "^5.0.1",

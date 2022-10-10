@@ -35,7 +35,7 @@ export async function SignIn(userData: LoginUserType) {
   return { token: getToken(user.id), name: user.firstName };
 }
 
-function getEncryptedPassword(password: string) {
+export function getEncryptedPassword(password: string) {
   return bcrypt.hashSync(password, SALTROUNDS);
 }
 

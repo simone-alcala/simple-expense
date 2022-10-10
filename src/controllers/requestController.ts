@@ -11,7 +11,7 @@ export async function create(req: Request, res: Response) {
 
 export async function findById(req: Request, res: Response) {
   const { id } = req.params;
-  const result = await service.getById(id);
+  const result = await service.getById(id, res.locals.currentUserId);
   res.status(200).send(result);
 }
 

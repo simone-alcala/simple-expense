@@ -1,6 +1,6 @@
 import prisma from '../database/config';
 
-import { CreateUserType } from '../types/userType';
+import { CreateUserType, UserType } from '../types/userType';
 
 export async function insert(data: CreateUserType) {
   return prisma.user.create({ data });  
@@ -14,6 +14,7 @@ export async function findById(id: number, password = false) {
       email: true,
       firstName: true,
       lastName: true,
+      type: true,
       password
     }
   });  
@@ -30,6 +31,18 @@ export async function findAll() {
       email: true,
       firstName: true,
       lastName: true,
+      type: true,
     }
   });  
+}
+
+export async function updateUserType(id: number, type: UserType) {
+  return prisma.user.update({
+    where: { id },
+    data: { type },
+  });  
+}
+
+export async function findBytype(type: UserType) {
+  return prisma.user.findFirst({ where: { type } });  
 }

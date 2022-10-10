@@ -90,7 +90,8 @@ export async function findByRequesterId(requesterId: number) {
   return await repository.findAllByRequesterId(requesterId);
 }
 
-export async function getById(stringId: string) {
+export async function getById(stringId: string, currentUserId?: string) { 
+
   const id = Number(stringId);
   if (isNaN(id)) {
     return {};
@@ -99,7 +100,12 @@ export async function getById(stringId: string) {
   if (!result) {
     return {};
   }
-  return result;
+
+  if ((currentUserId && result.requesterId === Number(currentUserId)) || (!currentUserId) ) {
+    return result;
+  }
+
+  return {};
 }
 
 export async function findById(id: number) {
@@ -143,4 +149,8 @@ export async function updateAmount(id: number, type: 'increment' | 'decrement', 
 
 export async function updateApproval(id: number, status: ApprovalStatus, comment: string) {
   return await repository.updateApproval(id, status, comment);
+}
+
+export async function findByIdAndRequester(id: number, requesterId: number) {
+  return await repository.findByIdAndRequester(id, requesterId);
 }

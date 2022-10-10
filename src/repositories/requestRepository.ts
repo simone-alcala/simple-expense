@@ -106,3 +106,9 @@ export async function updateApproval(id: number, status: 'APPROVED' | 'REJECTED'
     data: { status: status as requestStatus, approverComment }
   })
 }
+
+export async function findByIdAndRequester(id: number, requesterId: number) {
+  return prisma.request.findFirst({ 
+    where: { id, requesterId },
+  });  
+}

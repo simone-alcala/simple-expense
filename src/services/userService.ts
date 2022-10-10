@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import * as throwError from '../utils/errorUtils';
 import * as repository from '../repositories/userRepository';
+import { UserType } from '../types/userType';
 
 const JWT_KEY = process.env.JWT_KEY || '';
 
@@ -22,20 +23,32 @@ export async function findById(id: string) {
 }
 
 export async function isValidToken(token: string, message?: string) {
-  let result: { userId: number } | undefined;
+
+  let userDecoded : { 
+    userId: number   
+  } | undefined;
+
   jwt.verify(token, JWT_KEY, (error, decoded) => {
     if (error) {
       throw throwError.unauthorized(message);
     } else {
-      result = decoded as { userId: number };
+      userDecoded = decoded as { userId: number };
     }
   });
-  if (result?.userId){
-    const user = await getUserById(result.userId);
+
+  if (userDecoded?.userId){
+    const user = await getUserById(userDecoded.userId);
+
     if (user) {
-      return result.userId;
+      return {
+        userId: user.id,
+        userType: user.type
+      };
+    } else {
+      throw throwError.unauthorized('Invalid token');
     }
   }
+
 }
 
 async function getUserByEmail(email: string) {
@@ -66,8 +79,19 @@ export async function findUserByEmailOrFail(email: string, message?: string) {
 
 export async function findUserByIdOrFail(id: number) {
   const result = await getUserById(id);
-  if (result) {
+  
+  if (!result) {
     throw throwError.notFound('User not found');
   }
 }
 
+export async function updateUserType(id: string, type: UserType) {
+  await findUserByIdOrFail(Number(id));
+  if (type === 'APPROVER') {
+    const approver = await repository.findBytype(type);
+    if (approver) {
+      throw throwError.conflict(`User ${approver.id} already is approver`);
+    }
+  }
+  return repository.updateUserType(Number(id), type);
+}

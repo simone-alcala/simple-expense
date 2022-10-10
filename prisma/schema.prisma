@@ -16,6 +16,7 @@ model User {
   lastName  String
   email     String @unique
   password  String
+  type      UserType  @default(USER)
 
   requests  Request[]
   approvals Approval[]
@@ -99,4 +100,10 @@ enum RequestStatus {
   REJECTED
   REVIEW
   CANCELED
+}
+
+enum UserType {
+  ADMIN
+  USER
+  APPROVER
 }

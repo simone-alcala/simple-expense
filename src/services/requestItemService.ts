@@ -58,8 +58,6 @@ export async function getById(stringId: string, userId: number) {
   return result;
 }
 
-
-
 export async function findById(id: number) {
   return await repository.findById(id);
 }
@@ -69,6 +67,13 @@ export async function findAllByRequestId(requestId: string, userId?: number) {
   if (isNaN(Number(requestId))) {
     return [];
   }
+
+  const request = await requestService.findByIdAndRequester(Number(requestId), Number(userId));
+
+  if (!request) {
+    throw throwError.notFound('Request ID not found');
+  }
+
   const items = await repository.findAllByRequestId(Number(requestId));
   items.map(item => {
     result.push({

@@ -12,7 +12,10 @@ export default async function validateToken(req: Request, res: Response, next: N
   if (tokenBearer[0] !== '') {    
     throw unauthorized(errorMessage);
   }
-  const userId = await isValidToken(tokenBearer[1], errorMessage);
-  res.locals.currentUserId = userId;
+  const userInfo = await isValidToken(tokenBearer[1], errorMessage);
+  
+  res.locals.currentUserId = userInfo?.userId;
+  res.locals.currentUserType = userInfo?.userType;
+
   next();
 }

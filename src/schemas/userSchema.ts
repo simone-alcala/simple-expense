@@ -12,3 +12,7 @@ export const signIn = Joi.object<LoginUserType>({
   email: Joi.string().trim().email().required(),
   password: Joi.string().trim().min(4).required(),
 });
+
+export const updateType = Joi.object({
+  type: Joi.string().trim().uppercase().valid('ADMIN', 'USER', 'APPROVER').required(),  
+});

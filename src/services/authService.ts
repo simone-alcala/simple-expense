@@ -32,7 +32,7 @@ export async function SignIn(userData: LoginUserType) {
   };
   const user = await service.findUserByEmailOrFail(data.email, errorMessage);
   validPasswordOrFail(data.password, user.password, errorMessage);
-  return { token: getToken(user.id) };
+  return { token: getToken(user.id), name: user.firstName };
 }
 
 function getEncryptedPassword(password: string) {
